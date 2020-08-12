@@ -13,8 +13,11 @@ class RestaurantsController < ApplicationController
 
   def create
     @restaurant = Restaurant.new(restaurant_params)
-    @restaurant.save
-    redirect_to restaurant_path(@restaurant) #redirects to the new restaurant
+    if @restaurant.save # if validation is ok and restaurant saves, goes to line 17
+      redirect_to restaurant_path(@restaurant) # redirects to the new restaurant
+    else # if something wrong with validation, render returns you to the new page/method
+      render :new
+    end
   end
 
   private

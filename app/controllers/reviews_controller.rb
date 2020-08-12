@@ -6,11 +6,15 @@ class ReviewsController < ApplicationController
   end
 
   def create
-    @review = Review.new(review_params) #creates the new instance of Review
-    @restaurant = Restaurant.find(params[:restaurand_id])
+    @review = Review.new(review_params) # creates the new instance of Review
+    @restaurant = Restaurant.find(params[:restaurant_id])
     # [above] we need restaurant_id to associate our review with the corresponding restaurant
-    @review.save
-    redirect_to restaurant_path(@restaurant) # redirects to the restaurant page
+    @review.restaurant = @restaurant
+    if @review.save
+      redirect_to restaurant_path(@restaurant) # redirects to the restaurant page
+    else
+      render :new
+    end
   end
 
   private
